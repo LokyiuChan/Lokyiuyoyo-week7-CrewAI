@@ -21,7 +21,7 @@ The crew runs in a **sequential** process with three agents and linked tasks in 
    A key requirement was that `output.txt` include not only the final answer but also full crew execution details. This was solved by configuring CrewAI logging to `output_log_file="output.txt"` and ensuring the file is reset at the start of each run, then appending a clear final-result section.
 
 3. **Keeping implementation simple while meeting assignment constraints**  
-   The project went through iterations (including scraping-based approaches), but was refined to an LLM-only research workflow to stay simple, readable, and aligned with the required structure (3 agents, 3 tasks, sequential process, context passing).
+   The project went through iterations, but was refined to an LLM-only research workflow to stay simple, readable, and aligned with the required structure (3 agents, 3 tasks, sequential process, context passing).
 
 ## One Thing I Would Change with More Time
 
