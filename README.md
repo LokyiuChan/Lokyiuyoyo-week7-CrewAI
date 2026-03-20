@@ -1,37 +1,34 @@
-# CrewAI Marketing Strategy Assistant
+# CrewAI Marketing Strategy Project
 
-## Project Overview
-This project uses a CrewAI workflow to answer the business question:
-
-**Which marketing strategy is most suitable for an online clothes shop to increase traffic and sales?**
-
-The implementation is in `crew.py`, dependencies are listed in `requirements.txt`, and execution logs plus final results are written to `output.txt`.
+This project uses CrewAI to answer the business question: **Which marketing strategy is most suitable for an online clothes shop to increase traffic and sales?**  
+The implementation is in `crew.py`, dependencies are listed in `requirements.txt`, and run logs plus final results are written to `output.txt`.
 
 ## Business Problem
-Small online clothes shops often have limited budget and time, but many possible marketing channels (social ads, SEO, influencer marketing, email, etc.). Choosing the wrong strategy can waste money and slow growth. This crew helps by researching options, comparing them with practical criteria, and delivering one clear recommendation with action steps and KPIs.
+
+The project addresses a common challenge for small online fashion businesses: choosing one practical marketing strategy from many options. Online clothes shops usually have limited budget, limited team capacity, and high competition. A poor strategy choice can waste ad spend and delay growth.  
+This crew is designed to generate a structured recommendation that balances cost, speed, scalability, expected ROI, and fit for a small ecommerce clothing store.
 
 ## How the 3 Agents Work Together
-The crew runs in a **sequential** process with three agents in `crew.py`. First, the **Market Researcher** identifies and explains three relevant strategies for a small online clothes shop. Next, the **Marketing Analyst** compares those strategies using cost, ease of implementation, and sales potential, then selects one best option. Finally, the **Strategy Writer** turns the analysis into a short, decision-ready report that includes the recommended strategy, why it is best, a simple action plan, and KPIs. Each task uses the previous task's output as context, so the final recommendation is structured and consistent.
 
-## Challenges Encountered and Solutions
-- **Challenge:** Intermittent DeepSeek connection failure:  
-  `litellm.InternalServerError: DeepseekException - peer closed connection without sending complete message body (incomplete chunked read)`
-- **Likely Cause:** Prompts/tasks were too long and generated large responses, increasing request instability.
-- **Solution Implemented:**
-  - Simplified task scope and output requirements (exactly 3 strategies, concise sections, no long paragraphs).
-  - Kept outputs short and structured with bullets to reduce response size.
-  - Captured full runtime console output into `output.txt` to improve debugging and traceability (agent logs, errors, and final result).
+The crew runs in a **sequential** process with three agents and linked tasks in `crew.py`. The **Market Researcher** first identifies and explains common ecommerce marketing strategies relevant to online clothing stores. The **Marketing Analyst** then takes that research context, compares strategy options using clear business criteria, and selects the most suitable strategy with justification. Finally, the **Strategy Writer** uses the analysis context to produce a decision-ready business report with recommendation, rationale, implementation steps, risk/mitigation, and KPIs. This task-by-task context passing makes the final output more coherent and consistent than isolated single-step prompting.
 
-## What I Would Change With More Time
-If I had more time, I would add a lightweight evaluation loop that runs the crew with multiple prompt variants and scores outputs (clarity, actionability, and KPI quality), then automatically keeps the best result. This would improve recommendation quality and consistency without making the core workflow more complex.
+## Challenges Encountered and How They Were Solved
 
-## How to Run
-1. Activate your virtual environment.
-2. Ensure `.env` contains valid DeepSeek settings.
-3. Run:
+1. **Environment stability and Python version alignment**  
+   During development, the virtual environment was switched across Python versions to match project requirements. Recreating the `venv` and reinstalling from `requirements.txt` ensured dependency consistency and avoided runtime mismatch issues.
 
-```bash
-python crew.py
-```
+2. **Output logging requirements**  
+   A key requirement was that `output.txt` include not only the final answer but also full crew execution details. This was solved by configuring CrewAI logging to `output_log_file="output.txt"` and ensuring the file is reset at the start of each run, then appending a clear final-result section.
 
-After execution, check `output.txt` for full logs and the final report.
+3. **Keeping implementation simple while meeting assignment constraints**  
+   The project went through iterations (including scraping-based approaches), but was refined to an LLM-only research workflow to stay simple, readable, and aligned with the required structure (3 agents, 3 tasks, sequential process, context passing).
+
+## One Thing I Would Change with More Time
+
+If I had more time, I would add an evaluation layer for output quality and reliability: for example, a lightweight validation step that scores the final recommendation against a rubric (clarity, feasibility, KPI quality, and risk coverage). This would make results more consistent across multiple runs and easier to compare for grading or business decision-making.
+
+## Project Files
+
+- `crew.py`: Main CrewAI implementation (agents, tasks, sequential crew execution)
+- `requirements.txt`: Python dependencies
+- `output.txt`: Full execution log and final result
